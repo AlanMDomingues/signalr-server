@@ -6,13 +6,10 @@
         {
             var userId = UserId;
 
-            if (string.IsNullOrEmpty(userId))
+            if (!string.IsNullOrEmpty(userId))
             {
-                await OnDisconnectedAsync(null);
-                return;
+                await Groups.AddToGroupAsync(Context.ConnectionId, $"USER-{userId}");
             }
-
-            await Groups.AddToGroupAsync(Context.ConnectionId, $"USER-{userId}");
 
             await base.OnConnectedAsync();
         }
