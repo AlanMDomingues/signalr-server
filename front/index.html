@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teste</title>
+    <!-- Inclua a biblioteca SignalR do CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+  </head>
+  <body>
+    <h1>SignalR Client</h1>
+    <!-- <input type="text" id="messageInput" placeholder="Digite uma mensagem" />
+    <button onclick="sendMessage()">Enviar</button> -->
+    <ul id="messagesList"></ul>
+
+    <script>
+      // Crie a conexão com o hub SignalR
+      const connection = new signalR.HubConnectionBuilder()
+        .withUrl("http://localhost:5084/notificationHub?user_id=1") // Altere a URL conforme seu backend
+        .build();
+
+      // Recebe mensagens do servidor
+      connection.on("ReceiveNotification", (message) => {
+        const li = document.createElement("li");
+        li.textContent = `${message}`;
+        document.getElementById("messagesList").appendChild(li);
+      });
+
+      // Inicia a conexão
+      connection.start().catch(err => console.error(err.toString()));
+
+      // Função para enviar mensagem
+    //   function sendMessage() {
+    //     const user = "Usuário";
+    //     const message = document.getElementById("messageInput").value;
+    //     connection.invoke("SendMessage", user, message).catch(err => console.error(err.toString()));
+    //   }
+    </script>
+  </body>
+</html>
